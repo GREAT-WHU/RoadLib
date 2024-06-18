@@ -1,0 +1,58 @@
+%YAML:1.0
+
+cam0_calib: "cam0_pinhole.yaml"
+
+# Timespan.
+t_start: 280900
+t_end: 281300
+
+# Camera-ground geometric parameters.
+cg_alpha: 0.82258
+cg_theta: -0.62140
+cg_h: 1.82
+
+# IPM settings.
+IPM_WIDTH: 400
+IPM_HEIGHT: 800
+IPM_RESO: 0.05
+
+# Extrinsics.
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 0.99990521, 0.00735322, 0.01164073, -0.1873279983012331,
+           -0.01168075, 0.00542324, 0.99991707, 0.17845739160143645,
+           0.00728948, -0.99995826, 0.00550862, 0.09025052016549336,
+           0.00000000,0.00000000,0.00000000,1.00000000]
+
+# Thresholds for observation filtering.
+patch.min_size: 50                            # general
+patch.dashed_min_h: 1.35                      # "DASHED" type, patch-like
+patch.dashed_max_h: 10.0                
+patch.dashed_max_dist: 12.0                
+patch.guide_min_h: 0.0                        # "GUIDE" type, patch-like
+patch.guide_max_h: 1000.0                
+patch.guide_max_dist: 20.0                
+patch.solid_max_dist: 15.0                    # "SOLID" type, line-like
+patch.stop_max_dist: 12.0                     # "STOP" type, line-like
+
+# IMU-aided IPM compensation.
+need_smooth: 1
+pose_smooth_window: 20
+large_slope_thresold: 1.5
+
+# Visualization.
+enable_vis_image: 1
+enable_vis_3d: 1
+
+# For mapping phase.
+mapping.step: 10                              # Perform patch merging every x steps.
+mapping.patch_freeze_distance: 10.0           # Turn the patches into inactive status after passing by.
+mapping.line_freeze_distance: 10.0              
+mapping.line_freeze_max_length: 50.0            
+mapping.line_cluster_max_dist: 1.0            # Thresholds for line marking clustering.
+mapping.line_cluster_max_across_dist1: 1.0     
+mapping.line_cluster_max_across_dist2: 0.4     
+mapping.line_cluster_max_theta: 10.0           
+
