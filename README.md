@@ -50,17 +50,46 @@ See
 ```Bash
 python scripts/inference_example.py
 ```
-for details of inference.
+for details of the inference.
 
 Notice that this is just a toy model due to the limited training set. You may train your own road marking segmentation model to fit your applications.
 
 ## Run the example
 
+### 1. Mapping example
+
+Download the test dataset we collected in Wuhan City here (**preparing...**).
+
+To run the mapping example, follow the command below
+
+```Bash
+./build/demo_mapping ./config/WHU_0412/vi.yaml ${DATASET}/stamp_rearrange.txt ${DATASET}/cam0 ${DATASET}/out2 ${DATASET}/gt.txt ${DATASET}/odo.txt ./map_output.bin
+```
+
+This demo would perform incremental mapping and geo-registering sequentially. The main function (demo_mapping.cpp) is written in a simple script-like manner, feel free to modify it.
+
+### 2. Map-aided localization example
+
 TODO
 
 ## Run on your own dataset
 
-TODO
+To run on your own dataset, the following data/metadata need to be prepared.
+
+* Monocular RGB images with calibrated intrinsics.
+* Semantic masks of the images with road marking segmentation. See [inference model](#inference-model-road-marking-segmentation) for details.
+* Camera-ground geometric parameters for IPM. Here we use the conventions consistent with [gv_tools](https://github.com/GREAT-WHU/gv_tools) ($h$ for height, $\theta$ for pitch, $\alpha$ for roll).
+
+<br/>
+<div align=center>
+<img alt="" src="./assets/frame.svg" width='300px' />
+</div>
+<br/>
+
+* Odometry poses for local mapping. 
+* Global poses for geo-registering. The global poses could be obtained by fusing GNSS and odometry (VIO for example). See the global estimator in VINS-Fusion for reference.
+
+In all the tests, we assume the body frame to be **left-forward-up** and the camera frame to be **right-down-forward**. Modifications might be needed if you are using a different setup.
 
 ## Limitations
 The obvious limitation of the project is that it only focuses on the road markings. We hope to support other road instances (like poles, signs) in the future.
