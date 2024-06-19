@@ -44,7 +44,7 @@ make -j8
 
 ## Inference model (road marking segmentation)
 
-We provide an example ONNX model for road marking segmentation. The model is based on the Segformer implementation of MMSegmentation. We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
+We provide an pretrained ONNX [model](https://whueducn-my.sharepoint.com/:f:/g/personal/2015301610143_whu_edu_cn/EjnKWS_nn5dFtfaKRkCwpTUBrgHChZW7jAMK3yzIXQ1H8Q?e=Dy4uyf) for road marking segmentation. The model is based on the Segformer implementation of MMSegmentation. We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
 
 See
 ```Bash
@@ -52,7 +52,7 @@ python scripts/inference_example.py
 ```
 for details of inference.
 
-You may train your own road marking segmentation model to fit your applications.
+Notice that this is just a toy model due to the limited training set. You may train your own road marking segmentation model to fit your applications.
 
 ## Run the example
 
