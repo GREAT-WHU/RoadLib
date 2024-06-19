@@ -5,11 +5,13 @@
 
 This is a enhanced version of our work "Visual Mapping and Localization System Based on Compact Instance-Level Road Markings With Spatial Uncertainty" ([RA-L 2022](https://ieeexplore.ieee.org/document/9850364)).
 
+I have made practical modifications to the original version and hope this can serve as a reference for related research. A video preview is available here [[Bilibili](https://www.bilibili.com/video/BV1bp42117N1)].
+
 <div align=center>
 <img alt="" src="./assets/roadlib.svg" />
 </div>
 
-I have made practical modifications to the original version and hope this can serve as a reference for related research. A video preview is available here [[Bilibili](https://www.bilibili.com/video/BV1bp42117N1)] .
+
 
 ## What is new? (compared to the original paper)
 
