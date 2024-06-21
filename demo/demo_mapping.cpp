@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 	road_map.saveMapToFileBinaryRaw(result_file);
 	
 	//road_map.loadMapFromFileBinaryRaw("D:/city_0412/map0.bin");
-	//visualize_roadmap(road_map, vis_instances);
-	//viewer.SetInstances(vis_instances);
+	visualize_roadmap(road_map, vis_instances);
+	viewer.SetInstances(vis_instances);
 	//cin.get();
 
 	while (true)

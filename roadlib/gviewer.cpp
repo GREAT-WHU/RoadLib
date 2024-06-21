@@ -152,7 +152,15 @@ void gviewer::Run()
 	printf(">>> Hold 'left mouse' to rotate...\n");
 	printf(">>> Hold 'right mouse' to translate...\n");
 	printf("----------------------------------------------\n");
+    const GLubyte* renderer = glGetString(GL_RENDERER);
+    const GLubyte* version = glGetString(GL_VERSION);
+    const GLubyte* vendor = glGetString(GL_VENDOR);
+    const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 
+    std::cout << "Renderer: " << renderer << std::endl;
+    std::cout << "OpenGL version supported: " << version << std::endl;
+    std::cout << "Vendor: " << vendor << std::endl;
+    std::cout << "GLSL version: " << glslVersion << std::endl;
 	
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window) && !mb_stop)
@@ -407,16 +415,16 @@ void gviewer::Run()
 				auto & instance = mv_instances[i];
 				if (instance.type == VisualizedPatchType::BOX)
 				{
-					Eigen::Matrix4d Twb = Eigen::Matrix4d::Identity();
-					Twb.block<3, 3>(0, 0) = instance.R;
-					Twb.block<3, 1>(0, 3) = instance.t;
-					glPushMatrix();
+					// Eigen::Matrix4d Twb = Eigen::Matrix4d::Identity();
+					// Twb.block<3, 3>(0, 0) = instance.R;
+					// Twb.block<3, 1>(0, 3) = instance.t;
+					// glPushMatrix();
 
-					glMultMatrixd(Twb.data());
-					glColor3f(instance.color[0], instance.color[1], instance.color[2]);
+					// glMultMatrixd(Twb.data());
+					// glColor3f(instance.color[0], instance.color[1], instance.color[2]);
 
-					MyBox(instance.l, instance.w, instance.h);
-					glPopMatrix();
+					// MyBox(instance.l, instance.w, instance.h);
+					// glPopMatrix();
 				}
 				else if (instance.type == VisualizedPatchType::LINE_SEGMENT)
 				{
@@ -430,6 +438,24 @@ void gviewer::Run()
 						glVertex3f(instance.pts[j](0), instance.pts[j](1), instance.pts[j](2));
 					}
 					glEnd();
+
+					// //glLineWidth(3.0f);
+					// glLineWidth(instance.linewidth);
+					// // glBegin(GL_LINE_STRIP);
+					// glBegin(GL_TRIANGLE_STRIP);
+					// Eigen::Vector3d nn;
+					// for (int j = 0; j < instance.pts.size()-1; j++)
+					// {
+					// 	//glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
+					// 	glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), instance.alpha);
+					// 	nn = (instance.pts[j+1] - instance.pts[j]).normalized()*0.025/m_scale;
+
+					// 	glVertex3f(instance.pts[j](0) + nn(1), instance.pts[j](1)-nn(0), instance.pts[j](2));
+					// 	glVertex3f(instance.pts[j](0)- nn(1), instance.pts[j](1)+nn(0), instance.pts[j](2));
+					// 	glVertex3f(instance.pts[j+1](0) + nn(1), instance.pts[j+1](1)-nn(0), instance.pts[j](2));
+					// 	glVertex3f(instance.pts[j+1](0)- nn(1), instance.pts[j+1](1)+nn(0), instance.pts[j](2));
+					// }
+					// glEnd();
 				}
 
 			}

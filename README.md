@@ -47,7 +47,9 @@ make -j8
 
 ## Inference model (road marking segmentation)
 
-We provide an pretrained ONNX [model](https://whueducn-my.sharepoint.com/:f:/g/personal/2015301610143_whu_edu_cn/EjnKWS_nn5dFtfaKRkCwpTUBrgHChZW7jAMK3yzIXQ1H8Q?e=Dy4uyf) for road marking segmentation. The model is based on the Segformer implementation of MMSegmentation. We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
+We provide an pretrained pytorch [model](https://whueducn-my.sharepoint.com/:f:/g/personal/2015301610143_whu_edu_cn/EjnKWS_nn5dFtfaKRkCwpTUBrgHChZW7jAMK3yzIXQ1H8Q?e=Dy4uyf) for road marking segmentation. The model is based on the Segformer implementation of MMSegmentation. We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
+
+To test the model, MMSegmentation is needed. After the installation, put "segformer_whu.py" to the "configs/segformer" folder of the MMSegmentation project.
 
 See
 ```Bash
@@ -66,10 +68,12 @@ Download the test dataset we collected in Wuhan City here (**preparing...**).
 To run the mapping example, follow the command below
 
 ```Bash
-./build/demo_mapping ./config/WHU_0412/vi.yaml ${DATASET}/stamp_rearrange.txt ${DATASET}/cam0 ${DATASET}/out2 ${DATASET}/gt.txt ${DATASET}/odo.txt ./map_output.bin
+./build/demo_mapping ./config/WHU_0412/vi.yaml ${DATASET}/stamp.txt ${DATASET}/cam0 ${DATASET}/semantic ${DATASET}/gt.txt ${DATASET}/odo.txt ./map_output.bin
 ```
 
 This demo would perform incremental mapping and geo-registering sequentially. The main function (demo_mapping.cpp) is written in a simple script-like manner, feel free to modify it.
+
+The generated file would be saved to a binary file. Use "scripts/view_map.py" for visualization.
 
 ### 2. Map-aided localization example
 

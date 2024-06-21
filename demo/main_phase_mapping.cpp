@@ -127,6 +127,7 @@ int main_phase_mapping(const SensorConfig & config,
 
 		// Generate instance-level patches.
 		auto this_frame = generateInstancePatch(config, ipm_processer, ipm, ipm_semantic);
+		// if(pose_history.size()<5) this_frame.patches.clear();
 		this_frame.R = this_pose->second.R;
 		this_frame.t = this_pose->second.t;
 		this_frame.time = this_pose->first;
