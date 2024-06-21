@@ -45,11 +45,14 @@ cmake ..
 make -j8
 ```
 
+* This project has been tested on **Windows 10** and **Ubuntu 20.04 (WSL2)**. If you have any trouble building the project, please raise an issue.
+
+
 ## Inference model (road marking segmentation)
 
-We provide an pretrained pytorch [model](https://whueducn-my.sharepoint.com/:f:/g/personal/2015301610143_whu_edu_cn/EjnKWS_nn5dFtfaKRkCwpTUBrgHChZW7jAMK3yzIXQ1H8Q?e=Dy4uyf) for road marking segmentation. The model is based on the Segformer implementation of MMSegmentation. We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
+We provide an pretrained pytorch [model](https://whueducn-my.sharepoint.com/:f:/g/personal/2015301610143_whu_edu_cn/EjnKWS_nn5dFtfaKRkCwpTUBrgHChZW7jAMK3yzIXQ1H8Q?e=Dy4uyf) for road marking segmentation. The model is based on the Segformer implementation of [MMSegmentation](https://github.com/open-mmlab/mmsegmentation). We use the apolloscape dataset and our self-made dataset (around 500 images) collected in Wuhan City to train the model, which works fine in the road environments of Wuhan. 
 
-To test the model, MMSegmentation is needed. After the installation, put "segformer_whu.py" to the "configs/segformer" folder of the MMSegmentation project.
+To test the model, MMSegmentation is needed. After the installation, put [segformer_whu.py](scripts/segformer_whu.py) to the "configs/segformer" folder of the MMSegmentation project.
 
 See
 ```Bash
@@ -63,7 +66,7 @@ Notice that this is just a toy model due to the limited training set. You may tr
 
 ### 1. Mapping example
 
-Download the test dataset we collected in Wuhan City here (**preparing...**).
+Download the test dataset we collected in Wuhan City [here](https://whueducn-my.sharepoint.com/:u:/g/personal/2015301610143_whu_edu_cn/EVow179FE29GhRfXTnR3NEIBS2dutK0VAmMPvsNdEsc5LA?e=XFq9a9).
 
 To run the mapping example, follow the command below
 
