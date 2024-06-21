@@ -123,3 +123,6 @@ RoadLib is developed by [GREAT](http://igmas.users.sgg.whu.edu.cn/group) (GNSS+ 
 </div>
 <br/>
 
+We use the [camodocal](https://github.com/hengli/camodocal) project to handle camera models, while we modify it to a minimal version which doesn't need Ceres.
+
+The codebase and documentation is licensed under the [GNU General Public License v3 (GPL-3)](https://www.gnu.org/licenses/gpl-3.0.txt).

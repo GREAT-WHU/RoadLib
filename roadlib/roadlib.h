@@ -1,3 +1,13 @@
+/*******************************************************
+ * Copyright (C) 2024, GREAT Group, Wuhan University
+ * 
+ * This file is part of RoadLib.
+ * 
+ * Licensed under the GNU General Public License v3.0;
+ * you may not use this file except in compliance with the License.
+ *
+ * Author: Yuxuan Zhou (yuxuanzhou@whu.edu.cn)
+ *******************************************************/
 #pragma once
 #include <Eigen/Core>
 #include <Eigen/Dense>
