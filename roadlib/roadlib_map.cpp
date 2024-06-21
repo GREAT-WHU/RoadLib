@@ -117,6 +117,7 @@ int RoadInstancePatchMap::saveMapToFileBinaryRaw(string filename)
 		}
 	}
 	fclose(fp);
+	std::cout<<"[INFO] Finished."<<std::endl;
 	return 0;
 }
 
