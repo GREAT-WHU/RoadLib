@@ -26,7 +26,7 @@ I have made practical modifications to the original version and hope this can se
 
 ## Update log
 - [x] Code Upload (**deadline**: 2024/06)
-- [ ] Mapping Example (**deadline**: 2024/06)
+- [x] Mapping Example (**deadline**: 2024/06)
 - [ ] Localization Example (**deadline**: 2024/06)
 
 Still under construction...
