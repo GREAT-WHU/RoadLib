@@ -106,7 +106,7 @@ In all the tests, we assume the body frame to be **left-forward-up** and the cam
 The handcrafted legacy OpenGL viewer works fine on my Windows, but the performance is very poor on my WSL2. If you have any ideas or solutions, please contact me. 
 
 ## Limitations
-The obvious limitation of the project is that it only focuses on the road markings. We hope to support other road instances (like poles, signs) in the future.
+The obvious limitation of the project is that it only focuses on the road markings. We hope to support other roadside object instances (like poles, signs) in the future.
 
 The code project still has a lot of room for improvement. Feel free to discuss it with me!
 
