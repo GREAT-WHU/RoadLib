@@ -75,6 +75,7 @@ This demo would perform incremental mapping and geo-registering sequentially. Th
 
 The generated file would be saved to a binary file. Use "scripts/view_map.py" for visualization.
 
+
 ### 2. Map-aided localization example
 
 TODO
@@ -97,6 +98,9 @@ To run on your own dataset, the following data/metadata need to be prepared.
 * Global poses for geo-registering. The global poses could be obtained by fusing GNSS and odometry (VIO for example). See the global estimator in VINS-Fusion for reference.
 
 In all the tests, we assume the body frame to be **left-forward-up** and the camera frame to be **right-down-forward**. Modifications might be needed if you are using a different setup.
+
+## About the viewer perfomrance
+The handcrafted legacy OpenGL viewer works fine on my Windows, but the performance is very poor on my WSL2. If you have any ideas or solutions, please contact me. 
 
 ## Limitations
 The obvious limitation of the project is that it only focuses on the road markings. We hope to support other road instances (like poles, signs) in the future.

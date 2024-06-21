@@ -56,6 +56,7 @@ int RoadInstancePatchMap::clearMap()
 
 int RoadInstancePatchMap::saveMapToFileBinaryRaw(string filename)
 {
+	std::cout<<"[INFO] Saving map to "<<filename<<"..."<<std::endl;
 	size_t count;
 	float float_buffer[9];
 	FILE* fp = fopen(filename.c_str(), "wb");
@@ -121,6 +122,7 @@ int RoadInstancePatchMap::saveMapToFileBinaryRaw(string filename)
 
 int RoadInstancePatchMap::loadMapFromFileBinaryRaw(string filename)
 {
+	std::cout<<"[INFO] Loading map from "<<filename<<"..."<<std::endl;
 	FILE* fp = fopen(filename.c_str(), "rb");
 	for (int i = 0; i < 3; i++) fread(&ref(i), sizeof(double), 1, fp);
 

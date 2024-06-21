@@ -48,7 +48,7 @@ class Patch:
 all_patches={}
 
 # fp = open(r'D:\Projects\road_vision_iros\build\b_map_geo.bin','rb')
-fp = open(r'D:/city_0412/map0.bin','rb')
+fp = open(r'./build/map.bin','rb')
 # fp = open(r'D:\Projects\road_vision_iros\build\map_merged.bin','rb')
 buff = fp.read()
 fp.close()

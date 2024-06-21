@@ -2,13 +2,13 @@
 #include <iostream>
 
 void MyPerspective(GLdouble fov, GLdouble aspectRatio, GLdouble zNear, GLdouble zFar);
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-//map<GLFWwindow*, Viewer*> Viewer::mapptr;
-//Viewer* getViewerPtr(GLFWwindow* window);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
+// map<GLFWwindow*, Viewer*> Viewer::mapptr;
+// Viewer* getViewerPtr(GLFWwindow* window);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 // Different Objects
 void MyCylinder(GLdouble r, GLdouble l, int edgenum);
 void MyFrame();
@@ -20,7 +20,7 @@ void genTextListMap();
 void showBottomText(string s);
 void showStatusText(string s);
 
-vector<gviewer*> gviewer::vptr;
+vector<gviewer *> gviewer::vptr;
 
 using namespace std;
 
@@ -62,7 +62,6 @@ double m_curr_X0 = 0;
 double m_curr_Y0 = 0;
 double m_curr_Z0 = 0;
 
-
 bool is_pressL = false;
 bool is_pressR = false;
 bool mb_stop = false;
@@ -70,9 +69,7 @@ bool mb_stop = false;
 int m_width = 0;
 int m_height = 0;
 
-
 map<char, int> m_text_call_map;
-
 
 gviewer::gviewer()
 {
@@ -84,15 +81,12 @@ gviewer::gviewer()
 	mv_pointCloud.resize(1);
 }
 
-
 gviewer::~gviewer()
 {
 	gviewer::vptr.erase(std::find(gviewer::vptr.begin(), gviewer::vptr.end() - 1, this));
-
 }
 
-
-//Viewer* getViewerPtr(GLFWwindow* window)
+// Viewer* getViewerPtr(GLFWwindow* window)
 //{
 //	for (auto ite = Viewer::vptr.begin(); ite != Viewer::vptr.end(); ite++)
 //	{
@@ -100,15 +94,16 @@ gviewer::~gviewer()
 //			return *ite;
 //	}
 //	return nullptr;
-//}
+// }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 	m_width = width;
 	m_height = height;
 }
-void error_callback(int error, const char* msg) {
+void error_callback(int error, const char *msg)
+{
 	std::string s;
 	s = " [" + std::to_string(error) + "] " + msg + '\n';
 	std::cerr << s << std::endl;
@@ -152,16 +147,16 @@ void gviewer::Run()
 	printf(">>> Hold 'left mouse' to rotate...\n");
 	printf(">>> Hold 'right mouse' to translate...\n");
 	printf("----------------------------------------------\n");
-    const GLubyte* renderer = glGetString(GL_RENDERER);
-    const GLubyte* version = glGetString(GL_VERSION);
-    const GLubyte* vendor = glGetString(GL_VENDOR);
-    const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	const GLubyte *renderer = glGetString(GL_RENDERER);
+	const GLubyte *version = glGetString(GL_VERSION);
+	const GLubyte *vendor = glGetString(GL_VENDOR);
+	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-    std::cout << "Renderer: " << renderer << std::endl;
-    std::cout << "OpenGL version supported: " << version << std::endl;
-    std::cout << "Vendor: " << vendor << std::endl;
-    std::cout << "GLSL version: " << glslVersion << std::endl;
-	
+	std::cout << "Renderer: " << renderer << std::endl;
+	std::cout << "OpenGL version supported: " << version << std::endl;
+	std::cout << "Vendor: " << vendor << std::endl;
+	std::cout << "GLSL version: " << glslVersion << std::endl;
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window) && !mb_stop)
 	{
@@ -190,13 +185,13 @@ void gviewer::Run()
 		// else
 		// 	showStatusText(to_string(m_interval) + " m  ");
 
-
 		// Paint model
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		if (!mb_overlook)
 			MyPerspective(45, (float)m_width / m_height, 0.01, 100.0);
-		else glOrtho(-3.0 * m_width / m_height, 3.0 * m_width / m_height, -3, 3, -10, 1000);
+		else
+			glOrtho(-3.0 * m_width / m_height, 3.0 * m_width / m_height, -3, 3, -10, 1000);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -205,10 +200,9 @@ void gviewer::Run()
 
 		glTranslatef(m_trans_X, m_trans_Y, -m_dist * sqrt(3));
 
-
 		if (!mb_overlook)
 		{
-			//gluLookAt(m_dist,m_dist,m_dist,0,0,0,0,0,1);
+			// gluLookAt(m_dist,m_dist,m_dist,0,0,0,0,0,1);
 			glRotatef(-50 + m_rot_X, 1, 0, 0);
 			glRotatef(-135, 0, 0, 1);
 			glRotatef(0, 1, 0, 0);
@@ -217,15 +211,15 @@ void gviewer::Run()
 		}
 		else
 		{
-			//gluLookAt(0,0,m_dist,0,0,0,0,1,0);
+			// gluLookAt(0,0,m_dist,0,0,0,0,1,0);
 		}
 
 		m_interval = 0.1;
 
-
 		glScalef(m_scale, m_scale, m_scale);
 
-		if(!mb_track) glTranslatef(m_curr_X, m_curr_Y, m_curr_Z);
+		if (!mb_track)
+			glTranslatef(m_curr_X, m_curr_Y, m_curr_Z);
 
 		double temp = 10 / m_scale;
 		while (temp > 5)
@@ -259,13 +253,14 @@ void gviewer::Run()
 		if (mb_grid)
 		{
 			glPushMatrix();
-			glTranslatef(-round(xx / m_interval)*m_interval,
-				-round(yy / m_interval)*m_interval,
-				-round((zz +5) / m_interval)*m_interval);
+			glTranslatef(-round(xx / m_interval) * m_interval,
+						 -round(yy / m_interval) * m_interval,
+						 -round((zz + 5) / m_interval) * m_interval);
 			for (double i = 0; i < 100 * (1 / m_scale); i += m_interval)
 			{
-				double z = 1.5*sqrt(sqrt(0.00001*i / m_interval));
-				if (i == 0) z = 1.5*sqrt(sqrt(0.00001 * 1));
+				double z = 1.5 * sqrt(sqrt(0.00001 * i / m_interval));
+				if (i == 0)
+					z = 1.5 * sqrt(sqrt(0.00001 * 1));
 				glColor3f(0.70f + z, 0.70f + z, 0.70f + z);
 				glLineWidth(1.0);
 				glBegin(GL_LINES);
@@ -290,31 +285,30 @@ void gviewer::Run()
 		if (mb_axis)
 		{
 			glPushMatrix();
-			glTranslatef(-round(xx / m_curr_X)*m_interval,
-				-round(yy / m_curr_Y)*m_interval,
-				-round(zz / m_curr_Z)*m_interval);
+			glTranslatef(-round(xx / m_curr_X) * m_interval,
+						 -round(yy / m_curr_Y) * m_interval,
+						 -round(zz / m_curr_Z) * m_interval);
 			glPushMatrix();
 			glColor3f(0.0f, 0.0f, 1.0f);
-			MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+			MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
 			glPopMatrix();
 			glPushMatrix();
 			glRotatef(-90, 1, 0, 0);
 			glColor3f(0.0f, 1.0f, 0.0f);
-			MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+			MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
 			glPopMatrix();
 			glPushMatrix();
 			glRotatef(90, 0, 1, 0);
 			glColor3f(1.0f, 0.0f, 0.0f);
-			MyCylinder(0.025f * 1 / m_scale, 1.5*m_interval, 8);
+			MyCylinder(0.025f * 1 / m_scale, 1.5 * m_interval, 8);
 			glPopMatrix();
 			glPopMatrix();
 		}
 
-
 		if (mb_trajetory)
 		{
-			float c_s[3] = { 250 / 255.0,167 / 255.0,85 / 255.0 };
-			float c_e[3] = { 80 / 255.0,183 / 255.0,193 / 255.0 };
+			float c_s[3] = {250 / 255.0, 167 / 255.0, 85 / 255.0};
+			float c_e[3] = {80 / 255.0, 183 / 255.0, 193 / 255.0};
 			glColor4f(c_s[0], c_s[1], c_s[2], 0.5);
 			glLineWidth(6.0f);
 			for (const auto &t : mv_trajectory)
@@ -341,7 +335,6 @@ void gviewer::Run()
 					m_curr_Z0 = -mv_frames.back().back().second[2];
 				}
 			}
-
 		}
 		if (mb_KFs)
 		{
@@ -356,7 +349,7 @@ void gviewer::Run()
 
 					glMultMatrixd(Twb.data());
 
-					//MyAxis(1.0);
+					// MyAxis(1.0);
 					MyAxisSimple(0.1);
 
 					glPopMatrix();
@@ -365,8 +358,8 @@ void gviewer::Run()
 		}
 		if (mb_MPs)
 		{
-			double c_l[3] = { 0.1,0.1,0 };
-			double c_h[3] = { 0.1,0.1,1 };
+			double c_l[3] = {0.1, 0.1, 0};
+			double c_h[3] = {0.1, 0.1, 1};
 			double low = -5, high = 5;
 			glPointSize(10.0f);
 			for (const auto &pc : mv_pointCloud)
@@ -374,9 +367,9 @@ void gviewer::Run()
 				for (const auto &p : pc)
 				{
 					double h = (p(2) - (-5)) / 10;
-					glColor3f(c_l[0] + (c_h[0] - c_l[0])*h,
-						c_l[1] + (c_h[1] - c_l[1])*h,
-						c_l[2] + (c_h[2] - c_l[2])*h);
+					glColor3f(c_l[0] + (c_h[0] - c_l[0]) * h,
+							  c_l[1] + (c_h[1] - c_l[1]) * h,
+							  c_l[2] + (c_h[2] - c_l[2]) * h);
 					glBegin(GL_POINTS);
 					glVertex3f(p(0), p(1), p(2));
 					glEnd();
@@ -389,21 +382,26 @@ void gviewer::Run()
 			glPointSize(0.5f);
 			for (int i = 0; i < mv_pointCloud_semantic.size(); i++)
 			{
-				auto & pc = mv_pointCloud_semantic[i];
-				if (i == 0)      glColor3f(0 / 255.0, 128 / 255.0, 0 / 255.0);
-				else if (i == 1) glColor3f(128 / 255.0, 128 / 255.0, 0 / 255.0);
-				else if (i == 2) glColor3f(0 / 255.0, 0 / 255.0, 128 / 255.0);
-				else if (i == 3) glColor3f(128 / 255.0, 0 / 255.0, 128 / 255.0);
-				else if (i == 4) glColor3f(200 / 255.0, 0 / 255.0, 0 / 255.0);
-				else if (i == 5) glColor3f(50 / 255.0, 50 / 255.0, 50 / 255.0);
+				auto &pc = mv_pointCloud_semantic[i];
+				if (i == 0)
+					glColor3f(0 / 255.0, 128 / 255.0, 0 / 255.0);
+				else if (i == 1)
+					glColor3f(128 / 255.0, 128 / 255.0, 0 / 255.0);
+				else if (i == 2)
+					glColor3f(0 / 255.0, 0 / 255.0, 128 / 255.0);
+				else if (i == 3)
+					glColor3f(128 / 255.0, 0 / 255.0, 128 / 255.0);
+				else if (i == 4)
+					glColor3f(200 / 255.0, 0 / 255.0, 0 / 255.0);
+				else if (i == 5)
+					glColor3f(50 / 255.0, 50 / 255.0, 50 / 255.0);
 
 				glBegin(GL_POINTS);
-				for (const auto & p : pc)
+				for (const auto &p : pc)
 				{
 					glVertex3f(p(0), p(1), p(2));
 				}
 				glEnd();
-
 			}
 		}
 
@@ -412,59 +410,73 @@ void gviewer::Run()
 			for (int i = 0; i < mv_instances.size(); i++)
 			{
 
-				auto & instance = mv_instances[i];
+				auto &instance = mv_instances[i];
 				if (instance.type == VisualizedPatchType::BOX)
 				{
-					// Eigen::Matrix4d Twb = Eigen::Matrix4d::Identity();
-					// Twb.block<3, 3>(0, 0) = instance.R;
-					// Twb.block<3, 1>(0, 3) = instance.t;
-					// glPushMatrix();
+#ifdef _WIN32
+					Eigen::Matrix4d Twb = Eigen::Matrix4d::Identity();
+					Twb.block<3, 3>(0, 0) = instance.R;
+					Twb.block<3, 1>(0, 3) = instance.t;
+					glPushMatrix();
 
-					// glMultMatrixd(Twb.data());
-					// glColor3f(instance.color[0], instance.color[1], instance.color[2]);
+					glMultMatrixd(Twb.data());
+					glColor3f(instance.color[0], instance.color[1], instance.color[2]);
 
-					// MyBox(instance.l, instance.w, instance.h);
-					// glPopMatrix();
+					MyBox(instance.l, instance.w, instance.h);
+					glPopMatrix();
+#endif
 				}
 				else if (instance.type == VisualizedPatchType::LINE_SEGMENT)
 				{
-					//glLineWidth(3.0f);
+					// glLineWidth(3.0f);
+#ifdef _WIN32
 					glLineWidth(instance.linewidth);
 					glBegin(GL_LINE_STRIP);
 					for (int j = 0; j < instance.pts.size(); j++)
 					{
-						//glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
+						// glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
 						glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), instance.alpha);
 						glVertex3f(instance.pts[j](0), instance.pts[j](1), instance.pts[j](2));
 					}
 					glEnd();
+#else
+					if (instance.linewidth < 1.5)
+					{
+						glLineWidth(instance.linewidth);
+						glBegin(GL_LINE_STRIP);
+						for (int j = 0; j < instance.pts.size(); j++)
+						{
+							// glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
+							glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), instance.alpha);
+							glVertex3f(instance.pts[j](0), instance.pts[j](1), instance.pts[j](2));
+						}
+						glEnd();
+					}
+					else
+					{
+						glBegin(GL_TRIANGLE_STRIP);
+						Eigen::Vector3d nn;
+						for (int j = 0; j < instance.pts.size() - 1; j++)
+						{
+							// glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
+							glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), instance.alpha);
+							nn = (instance.pts[j + 1] - instance.pts[j]).normalized() * instance.linewidth / 200.0 / m_scale;
 
-					// //glLineWidth(3.0f);
-					// glLineWidth(instance.linewidth);
-					// // glBegin(GL_LINE_STRIP);
-					// glBegin(GL_TRIANGLE_STRIP);
-					// Eigen::Vector3d nn;
-					// for (int j = 0; j < instance.pts.size()-1; j++)
-					// {
-					// 	//glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), 0.75);
-					// 	glColor4f(instance.pts_color[j](0), instance.pts_color[j](1), instance.pts_color[j](2), instance.alpha);
-					// 	nn = (instance.pts[j+1] - instance.pts[j]).normalized()*0.025/m_scale;
-
-					// 	glVertex3f(instance.pts[j](0) + nn(1), instance.pts[j](1)-nn(0), instance.pts[j](2));
-					// 	glVertex3f(instance.pts[j](0)- nn(1), instance.pts[j](1)+nn(0), instance.pts[j](2));
-					// 	glVertex3f(instance.pts[j+1](0) + nn(1), instance.pts[j+1](1)-nn(0), instance.pts[j](2));
-					// 	glVertex3f(instance.pts[j+1](0)- nn(1), instance.pts[j+1](1)+nn(0), instance.pts[j](2));
-					// }
-					// glEnd();
+							glVertex3f(instance.pts[j](0) + nn(1), instance.pts[j](1) - nn(0), instance.pts[j](2));
+							glVertex3f(instance.pts[j](0) - nn(1), instance.pts[j](1) + nn(0), instance.pts[j](2));
+							glVertex3f(instance.pts[j + 1](0) + nn(1), instance.pts[j + 1](1) - nn(0), instance.pts[j](2));
+							glVertex3f(instance.pts[j + 1](0) - nn(1), instance.pts[j + 1](1) + nn(0), instance.pts[j](2));
+						}
+						glEnd();
+					}
 				}
+#endif
 
 			}
 		}
-		
+
 		glPopMatrix();
 		glPopMatrix();
-
-
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
@@ -478,35 +490,35 @@ void gviewer::Run()
 			int mWidth, mHeight;
 			glfwGetWindowSize(window, &mWidth, &mHeight);
 
-			//glBufferLock.lock();
+			// glBufferLock.lock();
 			std::cout << "\nSaving screenshot (" << mWidth << ", " << mHeight << ")\n";
 
 			int n = 3 * mWidth * mHeight;
-			GLubyte* pixels = new GLubyte[n];
+			GLubyte *pixels = new GLubyte[n];
 
 			glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-
 			glReadPixels(0, 0, mWidth, mHeight, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-			if (GL_NO_ERROR != glGetError()) throw "Error: Unable to read pixels.";
+			if (GL_NO_ERROR != glGetError())
+				throw "Error: Unable to read pixels.";
 
 			cv::Mat mm(mHeight, mWidth, CV_8UC3, pixels);
 			cv::cvtColor(mm, mm, cv::COLOR_BGR2RGB);
 			cv::imwrite(screenshot_path, mm);
 			// Convert to FreeImage format & save to file
-			//FIBITMAP* image = FreeImage_ConvertFromRawBits(pixels, mWidth, mHeight, 3 * mWidth, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
-			//FreeImage_Save(FIF_BMP, image, "test.bmp", 0);
+			// FIBITMAP* image = FreeImage_ConvertFromRawBits(pixels, mWidth, mHeight, 3 * mWidth, 24, 0xFF0000, 0x00FF00, 0x0000FF, false);
+			// FreeImage_Save(FIF_BMP, image, "test.bmp", 0);
 
 			//// Free resources
-			//FreeImage_Unload(image);
+			// FreeImage_Unload(image);
 			delete[] pixels;
-			//glBufferLock.unlock();
+			// glBufferLock.unlock();
 		}
 	}
 
 	glfwTerminate();
-	//cout<<window->
-	//delete window;
+	// cout<<window->
+	// delete window;
 }
 
 void gviewer::ClearView()
@@ -536,7 +548,7 @@ void gviewer::SetFrames(const vector<Frames> &vf)
 	mv_frames = vf;
 }
 
-void gviewer::AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d>& f)
+void gviewer::AddNewFrame(const pair<Eigen::Matrix3d, Eigen::Vector3d> &f)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_frames.back().push_back(f);
@@ -554,13 +566,13 @@ void gviewer::SetPointCloudSemantic(const vector<VPointCloud> &vpc)
 	mv_pointCloud_semantic = vpc;
 }
 
-void gviewer::SetInstances(const vector<VisualizedInstance>& vi)
+void gviewer::SetInstances(const vector<VisualizedInstance> &vi)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_instances = vi;
 }
 
-void gviewer::AddNewPoint(const Eigen::Vector3d & p)
+void gviewer::AddNewPoint(const Eigen::Vector3d &p)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_pointCloud.back().push_back(p);
@@ -569,32 +581,32 @@ void gviewer::AddNewPoint(const Eigen::Vector3d & p)
 void gviewer::AddNewPoint(const vector<Eigen::Vector3d> &pts)
 {
 	unique_lock<mutex> lock(m_mutex);
-	for (const auto & p : pts)
+	for (const auto &p : pts)
 	{
 		mv_pointCloud.back().push_back(p);
 	}
 }
 
-void gviewer::SetTrajectory(const VPointCloud & t)
+void gviewer::SetTrajectory(const VPointCloud &t)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_trajectory.clear();
 	mv_trajectory.push_back(t);
 }
 
-void gviewer::SetTrajectory(const vector<VPointCloud>& vt)
+void gviewer::SetTrajectory(const vector<VPointCloud> &vt)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_trajectory = vt;
 }
 
-void gviewer::AddNewPos(const Eigen::Vector3d & p)
+void gviewer::AddNewPos(const Eigen::Vector3d &p)
 {
 	unique_lock<mutex> lock(m_mutex);
 	mv_trajectory.back().push_back(p);
 }
 
-void gviewer::ScreenShot(const string& s)
+void gviewer::ScreenShot(const string &s)
 {
 	unique_lock<mutex> lock(m_mutex);
 	need_screenshot = true;
@@ -608,18 +620,20 @@ void gviewer::SetCenter()
 
 void gviewer::Show()
 {
-	if (t) return;
+	if (t)
+		return;
 	mb_stop = false;
 	t = new thread(&gviewer::Run, this);
-	//t->detach();
+	// t->detach();
 }
 
 void gviewer::Hide()
 {
-	if (!t) return;
+	if (!t)
+		return;
 
 	mb_stop = true;
-	//Sleep(2000);
+	// Sleep(2000);
 	t->join();
 	delete t;
 	window = nullptr;
@@ -655,13 +669,13 @@ void MyPerspective(GLdouble fov, GLdouble aspectRatio, GLdouble zNear, GLdouble 
 {
 	GLdouble rFov = fov * 3.14159265 / 180.0;
 	glFrustum(-zNear * tan(rFov / 2.0) * aspectRatio,
-		zNear * tan(rFov / 2.0) * aspectRatio,
-		-zNear * tan(rFov / 2.0),
-		zNear * tan(rFov / 2.0),
-		zNear, zFar);
+			  zNear * tan(rFov / 2.0) * aspectRatio,
+			  -zNear * tan(rFov / 2.0),
+			  zNear * tan(rFov / 2.0),
+			  zNear, zFar);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
 
 	double xpos, ypos;
@@ -696,26 +710,28 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
 	if (is_pressL)
 	{
-		m_rot_Z = m_rot_Z0 + (xpos - m_mouseL_x)*0.2;
-		m_rot_X = m_rot_X0 + (ypos - m_mouseL_y)*0.2;
+		m_rot_Z = m_rot_Z0 + (xpos - m_mouseL_x) * 0.2;
+		m_rot_X = m_rot_X0 + (ypos - m_mouseL_y) * 0.2;
 	}
 	if (is_pressR)
 	{
-		m_trans_Y = m_trans_Y0 - (ypos - m_mouseR_y)*0.015;
-		m_trans_X = m_trans_X0 + (xpos - m_mouseR_x)*0.015;
+		m_trans_Y = m_trans_Y0 - (ypos - m_mouseR_y) * 0.015;
+		m_trans_X = m_trans_X0 + (xpos - m_mouseR_x) * 0.015;
 	}
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
-	if (yoffset > 0) m_scale *= 1.1;
-	if (yoffset < 0) m_scale /= 1.1;
+	if (yoffset > 0)
+		m_scale *= 1.1;
+	if (yoffset < 0)
+		m_scale /= 1.1;
 }
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_O && action == GLFW_PRESS)
 		mb_overlook = (bool)(1 - (int)mb_overlook);
@@ -773,7 +789,7 @@ void MyAerial(GLfloat size)
 	glMultMatrixd(T.data());
 
 	float h = size / 2;
-	float l = sqrt(2)*size;
+	float l = sqrt(2) * size;
 	float r = size * 0.7;
 	glColor3f(0.2, 0.2, 0.8);
 	glLineWidth(4.0f);
@@ -795,7 +811,7 @@ void MyAerial(GLfloat size)
 		glBegin(GL_LINE_STRIP);
 		for (int j = 0; j <= n; j++)
 		{
-			glVertex3d(cos(dd1*(i + 0.5))*l + cos(dd2*j)*r, sin(dd1*(i + 0.5))*l + sin(dd2*j)*r, h);
+			glVertex3d(cos(dd1 * (i + 0.5)) * l + cos(dd2 * j) * r, sin(dd1 * (i + 0.5)) * l + sin(dd2 * j) * r, h);
 		}
 		glEnd();
 	}
@@ -837,17 +853,17 @@ void MyAxis(GLfloat scale)
 {
 	glPushMatrix();
 	glColor3f(0.5f, 0.5f, 1.0f);
-	MyCylinder(0.025f * 1 / m_scale, 0.5*m_interval*scale, 8);
+	MyCylinder(0.025f * 1 / m_scale, 0.5 * m_interval * scale, 8);
 	glPopMatrix();
 	glPushMatrix();
 	glRotatef(-90, 1, 0, 0);
 	glColor3f(0.5f, 1.0f, 0.5f);
-	MyCylinder(0.025f * 1 / m_scale, 0.5*m_interval*scale, 8);
+	MyCylinder(0.025f * 1 / m_scale, 0.5 * m_interval * scale, 8);
 	glPopMatrix();
 	glPushMatrix();
 	glRotatef(90, 0, 1, 0);
 	glColor3f(1.0f, 0.5f, 0.5f);
-	MyCylinder(0.025f * 1 / m_scale, 0.5*m_interval*scale, 8);
+	MyCylinder(0.025f * 1 / m_scale, 0.5 * m_interval * scale, 8);
 	glPopMatrix();
 }
 
@@ -873,26 +889,7 @@ void MyAxisSimple(GLfloat scale)
 void genTextListMap()
 {
 	map<char, uint64_t> letter_map = {
- {'1',0x7e1818181c181800},{'2',0x7e060c3060663c00},{'3',0x3c66603860663c00},{'4',0x30307e3234383000},
- {'5',0x3c6660603e067e00},{'6',0x3c66663e06663c00},{'7',0x1818183030667e00},{'8',0x3c66663c66663c00},
- {'9',0x3c66607c66663c00},{'0',0x3c66666e76663c00},{'A',0x6666667e66663c00},{'B',0x3e66663e66663e00},
- {'C',0x3c66060606663c00},{'D',0x3e66666666663e00},{'E',0x7e06063e06067e00},{'F',0x0606063e06067e00},
- {'G',0x3c66760606663c00},{'H',0x6666667e66666600},{'I',0x3c18181818183c00},{'J',0x1c36363030307800},
- {'K',0x66361e0e1e366600},{'L',0x7e06060606060600},{'M',0xc6c6c6d6feeec600},{'N',0xc6c6e6f6decec600},
- {'O',0x3c66666666663c00},{'P',0x06063e6666663e00},{'Q',0x603c766666663c00},{'R',0x66361e3e66663e00},
- {'S',0x3c66603c06663c00},{'T',0x18181818185a7e00},{'U',0x7c66666666666600},{'V',0x183c666666666600},
- {'W',0xc6eefed6c6c6c600},{'X',0xc6c66c386cc6c600},{'Y',0x1818183c66666600},{'Z',0x7e060c1830607e00},
- {'a',0x7c667c603c000000},{'b',0x3e66663e06060600},{'c',0x3c6606663c000000},{'d',0x7c66667c60606000},
- {'e',0x3c067e663c000000},{'f',0x0c0c3e0c0c6c3800},{'g',0x3c607c66667c0000},{'h',0x6666663e06060600},
- {'i',0x3c18181800180000},{'j',0x1c36363030003000},{'k',0x66361e3666060600},{'l',0x1818181818181800},
- {'m',0xd6d6feeec6000000},{'n',0x6666667e3e000000},{'o',0x3c6666663c000000},{'p',0x06063e66663e0000},
- {'q',0xf0b03c36363c0000},{'r',0x060666663e000000},{'s',0x3e403c027c000000},{'t',0x1818187e18180000},
- {'u',0x7c66666666000000},{'v',0x183c666600000000},{'w',0x7cd6d6d6c6000000},{'x',0x663c183c66000000},
- {'y',0x3c607c6666000000},{'z',0x3c0c18303c000000},{' ',0x0000000000000000},{':',0x0018180018180000},
- {'(',0x6030181818306000},{')',0x060c1818180c0600},{'[',0x7818181818187800},{']',0x1e18181818181e00},
- {'.',0x0606000000000000}
-	};
-
+		{'1', 0x7e1818181c181800}, {'2', 0x7e060c3060663c00}, {'3', 0x3c66603860663c00}, {'4', 0x30307e3234383000}, {'5', 0x3c6660603e067e00}, {'6', 0x3c66663e06663c00}, {'7', 0x1818183030667e00}, {'8', 0x3c66663c66663c00}, {'9', 0x3c66607c66663c00}, {'0', 0x3c66666e76663c00}, {'A', 0x6666667e66663c00}, {'B', 0x3e66663e66663e00}, {'C', 0x3c66060606663c00}, {'D', 0x3e66666666663e00}, {'E', 0x7e06063e06067e00}, {'F', 0x0606063e06067e00}, {'G', 0x3c66760606663c00}, {'H', 0x6666667e66666600}, {'I', 0x3c18181818183c00}, {'J', 0x1c36363030307800}, {'K', 0x66361e0e1e366600}, {'L', 0x7e06060606060600}, {'M', 0xc6c6c6d6feeec600}, {'N', 0xc6c6e6f6decec600}, {'O', 0x3c66666666663c00}, {'P', 0x06063e6666663e00}, {'Q', 0x603c766666663c00}, {'R', 0x66361e3e66663e00}, {'S', 0x3c66603c06663c00}, {'T', 0x18181818185a7e00}, {'U', 0x7c66666666666600}, {'V', 0x183c666666666600}, {'W', 0xc6eefed6c6c6c600}, {'X', 0xc6c66c386cc6c600}, {'Y', 0x1818183c66666600}, {'Z', 0x7e060c1830607e00}, {'a', 0x7c667c603c000000}, {'b', 0x3e66663e06060600}, {'c', 0x3c6606663c000000}, {'d', 0x7c66667c60606000}, {'e', 0x3c067e663c000000}, {'f', 0x0c0c3e0c0c6c3800}, {'g', 0x3c607c66667c0000}, {'h', 0x6666663e06060600}, {'i', 0x3c18181800180000}, {'j', 0x1c36363030003000}, {'k', 0x66361e3666060600}, {'l', 0x1818181818181800}, {'m', 0xd6d6feeec6000000}, {'n', 0x6666667e3e000000}, {'o', 0x3c6666663c000000}, {'p', 0x06063e66663e0000}, {'q', 0xf0b03c36363c0000}, {'r', 0x060666663e000000}, {'s', 0x3e403c027c000000}, {'t', 0x1818187e18180000}, {'u', 0x7c66666666000000}, {'v', 0x183c666600000000}, {'w', 0x7cd6d6d6c6000000}, {'x', 0x663c183c66000000}, {'y', 0x3c607c6666000000}, {'z', 0x3c0c18303c000000}, {' ', 0x0000000000000000}, {':', 0x0018180018180000}, {'(', 0x6030181818306000}, {')', 0x060c1818180c0600}, {'[', 0x7818181818187800}, {']', 0x1e18181818181e00}, {'.', 0x0606000000000000}};
 
 	for (auto iter = letter_map.begin(); iter != letter_map.end(); iter++)
 	{
@@ -921,11 +918,11 @@ void showBottomText(string s)
 {
 	glPushMatrix();
 	glTranslatef(-1, -1, 0.0);
-	glScalef((float)300.0 / m_width, 300.0/ m_height, 1);
+	glScalef((float)300.0 / m_width, 300.0 / m_height, 1);
 	for (int i = 0; i < s.size(); i++)
 	{
 		glPushMatrix();
-		glTranslatef(0.07*i, 0.0, 0.0);
+		glTranslatef(0.07 * i, 0.0, 0.0);
 		glScalef(0.01, 0.01, 1);
 		glCallList(m_text_call_map[s[i]]);
 		glPopMatrix();
@@ -938,7 +935,7 @@ void showStatusText(string s)
 	glPushMatrix();
 	glTranslatef(1, -1, 0.0);
 	glScalef((float)300.0 / m_width, 300.0 / m_height, 1);
-	glTranslatef(-0.07*s.size(),0, 0.0);
+	glTranslatef(-0.07 * s.size(), 0, 0.0);
 	for (int i = 0; i < s.size(); i++)
 	{
 		glPushMatrix();
@@ -952,7 +949,7 @@ void showStatusText(string s)
 
 void MyBox(GLfloat l, GLfloat w, GLfloat h)
 {
-	//glLineWidth(3);
+	// glLineWidth(3);
 	glLineWidth(0.5);
 	glBegin(GL_LINE_LOOP);
 	glVertex3f(l / 2, w / 2, h / 2);
