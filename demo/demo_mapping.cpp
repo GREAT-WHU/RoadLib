@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	string semantic_dir(argv[4]); //= "D:/city_0412/image/out/pred";
 	string ref_file(argv[5]); //= "D:/city_0412/gt.txt"
 	string odo_file(argv[6]); //= "D:/city_0412/odo.txt";
-	string result_file(argv[7]); //= "D:/city_0412/odo.txt";
+	string result_file(argv[7]); //= "D:/city_0412/result.txt";
 
 	viewer.Show();
 	RoadInstancePatchMap road_map;
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	// Incremental mapping.
 	main_phase_mapping(config, camstamp, raw_dir, semantic_dir, traj_odo, all_frames, road_map);
 
-	// Incremental mapping.
+	// Geo-registering.
 	road_map.geoRegister(traj_gt, vis_instances);
 	road_map.cleanMap();
 	road_map.unfreeze();
