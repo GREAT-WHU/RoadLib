@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 	// Incremental mapping.
 	road_map.geoRegister(traj_gt, vis_instances);
 	road_map.cleanMap();
+	road_map.unfreeze();
 	road_map.mergePatches(config, 1);
 	road_map.saveMapToFileBinaryRaw(result_file);
 	
