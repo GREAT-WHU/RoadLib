@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	string semantic_dir(argv[4]); //= "D:/city_0412/image/out/pred";
 	string ref_file(argv[5]); //= "D:/city_0412/gt.txt"
 	string odo_file(argv[6]); //= "D:/city_0412/odo.txt";
-	string result_file(argv[7]); //= "D:/city_0412/result.txt";
+	string result_file(argv[7]); //= "D:/city_0412/map.bin";
 
 	viewer.Show();
 	RoadInstancePatchMap road_map;
