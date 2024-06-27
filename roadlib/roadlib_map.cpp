@@ -446,8 +446,8 @@ int RoadInstancePatchMap::cleanMap()
 					isnan((*iter_patch)->b_point_metric[1].norm()) ||
 					isnan((*iter_patch)->b_point_metric[2].norm()) ||
 					isnan((*iter_patch)->b_point_metric[3].norm()) ||
-					isnan((*iter_patch)->mean_metric.norm()||
-					*iter_patch)->w() < 0.01 || (*iter_patch)->h() < 0.01)
+					isnan((*iter_patch)->mean_metric.norm())||
+					(*iter_patch)->w() < 0.01 || (*iter_patch)->h() < 0.01)
 				{
 					bad_flag = true;
 				}
