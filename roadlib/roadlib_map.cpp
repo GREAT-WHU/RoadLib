@@ -660,7 +660,7 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 								cv::Mat rect_intersection;
 
 								if (intersection_flag[j] >= 1) continue;
-								if (iter_class->second[indice[cur_id]]->merged || iter_class->second[indice[j]]->merged)
+								if (iter_class->second[indice[cur_id]]->frozen || iter_class->second[indice[j]]->frozen)
 								{
 									intersection_flag[j] = 0;
 								}
