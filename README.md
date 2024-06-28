@@ -80,17 +80,17 @@ The generated file would be saved to a binary file. Use "scripts/view_map.py" fo
 
 ### 2. Map-aided localization example
 
-We provide a simple example for map-aided localization based on pre-built map. Notice that the functionality of **coarse matching**, or rather **re-localization**, is currently not provided in this project. A meter-level **initial guess** of the vehicle pose is needed for the initial map matching, after which global pose measurements are not necessary.
+We provide a simple example for map-aided localization based on the pre-built map. Notice that the functionality of **coarse matching** (or  **re-localization**) is currently not provided. A meter-level **initial guess** of the vehicle pose is needed for the initial map matching, after which global pose measurements are not necessary.
 
-In this example, we use the same data sequence of the mapping phase for map-aid localization, as a functionality test. To run the localization example, follow the command below
+In this example, we use the same data sequence of the mapping phase for map-aided localization, as a simple functionality test. To run the localization example, follow the command below
 
 ```Bash
 ./build/demo_localization ./config/WHU_0412/vi_loc.yaml ${DATASET}/stamp.txt ${DATASET}/cam0 ${DATASET}/semantic ${DATASET}/gt.txt ${DATASET}/odo.txt ./map_output.bin ./localization_result.txt
 ```
 
-Notice that the map file "map_output.bin" needs to be pre-built in the mapping example. The ground-truth file is needed to provide the **initial guess** (prior pose estimation of the first epoch). 
+Notice that the map file "map_output.bin" needs to be pre-built (see the **mapping example**). The ground-truth file is needed to provide the **initial guess** (prior pose estimation of the first epoch). 
 
-The generated localization result would be saved to a text file. Use "scripts/evaluate_localization.py" to evaluate the performance.
+The generated localization result would be saved to a text file. Use "scripts/evaluate_localization.py" to evaluate the accuracy.
 
 ## Run on your own dataset
 
