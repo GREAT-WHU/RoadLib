@@ -27,14 +27,13 @@ I have made practical modifications to the original version and hope this can se
 ## Update log
 - [x] Code Upload (**deadline**: 2024/06)
 - [x] Mapping Example (**deadline**: 2024/06)
-- [ ] Localization Example (**deadline**: 2024/06)
-
-Still under construction...
+- [x] Localization Example (**deadline**: 2024/06)
+- [ ] More Examples 
 
 ## Installation
 
 
-* The project depends on OpenCV, PCL and GLFW3. Install these libraries first.
+* The project depends on OpenCV, PCL, GLFW3 and Ceres (for localization). Install these libraries first.
 
 * Use the following commands to compile the project.
 
@@ -81,7 +80,17 @@ The generated file would be saved to a binary file. Use "scripts/view_map.py" fo
 
 ### 2. Map-aided localization example
 
-TODO
+We provide a simple example for map-aided localization based on pre-built map. Notice that the functionality of **coarse matching**, or rather **re-localization**, is currently not provided in this project. A meter-level **initial guess** of the vehicle pose is needed for the initial map matching, after which global pose measurements are not necessary.
+
+In this example, we use the same data sequence of the mapping phase for map-aid localization, as a functionality test. To run the localization example, follow the command below
+
+```Bash
+./build/demo_localization ./config/WHU_0412/vi_loc.yaml ${DATASET}/stamp.txt ${DATASET}/cam0 ${DATASET}/semantic ${DATASET}/gt.txt ${DATASET}/odo.txt ./map_output.bin ./localization_result.txt
+```
+
+Notice that the map file "map_output.bin" needs to be pre-built in the mapping example. The ground-truth file is needed to provide the **initial guess** (prior pose estimation of the first epoch). 
+
+The generated localization result would be saved to a text file. Use "scripts/evaluate_localization.py" to evaluate the performance.
 
 ## Run on your own dataset
 

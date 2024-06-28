@@ -260,6 +260,19 @@ public:
 public:
 	Eigen::Vector3d ref;
 	map<double, Tpoint> poses;
+	void transfrom_ref(Eigen::Vector3d _ref)
+	{
+		if(ref == _ref) return;
+		Eigen::Matrix3d Rne = calcRne(ref);
+		Eigen::Matrix3d Rn1e = calcRne(_ref);
+		Eigen::Matrix3d Rn1n = Rn1e*Rne.transpose();
+		for(auto iter = poses.begin();iter!=poses.end();iter++)
+		{
+			iter->second.R = Rn1n * iter->second.R;
+			iter->second.t = Rn1e * (Rne.transpose() * iter->second.t + ref - _ref);
+			iter->second.v = Rn1n * iter->second.v;
+		}
+	}
 };
 
 //struct TrajectoryPoint
@@ -293,6 +306,16 @@ struct t_graphpose
 	double* q_array;
 	Vector3d pos_orig;
 	Vector3d att_orig;
+};
+
+struct t_patch_est
+{
+	double p[3];
+	t_patch_est() {}
+	t_patch_est(Eigen::Vector3d pos)
+	{
+		p[0] = pos(0); p[1] = pos(1); p[2] = pos(2);
+	}
 };
 //
 //inline map<double, TrajectoryPoint> load_global_traj(const string& filename)

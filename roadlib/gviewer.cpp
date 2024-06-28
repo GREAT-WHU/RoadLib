@@ -413,7 +413,6 @@ void gviewer::Run()
 				auto &instance = mv_instances[i];
 				if (instance.type == VisualizedPatchType::BOX)
 				{
-#ifdef _WIN32
 					Eigen::Matrix4d Twb = Eigen::Matrix4d::Identity();
 					Twb.block<3, 3>(0, 0) = instance.R;
 					Twb.block<3, 1>(0, 3) = instance.t;
@@ -424,7 +423,6 @@ void gviewer::Run()
 
 					MyBox(instance.l, instance.w, instance.h);
 					glPopMatrix();
-#endif
 				}
 				else if (instance.type == VisualizedPatchType::LINE_SEGMENT)
 				{

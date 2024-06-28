@@ -65,6 +65,13 @@ public:
 	double mapping_line_cluster_max_across_dist2 = 0.4;
 	double mapping_line_cluster_max_theta = 10.0;
 
+	int localization_max_windowsize = 100;
+	int localization_force_last_n_frames = 2;
+	int localization_every_n_frames = 5;
+	int localization_min_keyframe_dist = 1.0;
+	int localization_max_strict_match_dist = 1.0;
+	int localization_solid_sample_interval = 3.0;
+
 	bool enable_vis_image = true;
 	bool enable_vis_3d = true;
 };
@@ -244,10 +251,11 @@ public:
 	int buildKDTree();
 
 	// Instance-level nearest matching.
-	map<PatchType, vector<pair<int, int>>> mapMatch(RoadInstancePatchFrame &frame,int mode = 0); // mode : 0(normal), 1(strict)
+	map<PatchType, vector<pair<int, int>>> mapMatch(const SensorConfig &config, 
+		RoadInstancePatchFrame &frame, int mode = 0); // mode : 0(normal), 1(strict)
 	
 	// Line segment matching (for measurement construction).
-	vector<pair<int, int>> getLineMatch(RoadInstancePatchFrame &frame, PatchType road_class,
+	vector<pair<int, int>> getLineMatch(const SensorConfig &config, RoadInstancePatchFrame &frame, PatchType road_class,
 		int frame_line_count, int map_line_count, int mode =0);
 
 	// Geo-register the map elements based on linked frames.

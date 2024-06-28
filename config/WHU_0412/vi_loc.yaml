@@ -1,0 +1,46 @@
+%YAML:1.0
+
+cam0_calib: "cam0_pinhole.yaml"
+
+IPM_WIDTH: 400 # for visualization
+IPM_HEIGHT: 800
+IPM_RESO: 0.05
+
+cg_alpha: 0.82258
+cg_theta: -0.62140
+cg_h: 1.82
+
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 0.99990521, 0.00735322, 0.01164073, -0.1873279983012331,
+           -0.01168075, 0.00542324, 0.99991707, 0.17845739160143645,
+           0.00728948, -0.99995826, 0.00550862, 0.09025052016549336,
+           0.00000000,0.00000000,0.00000000,1.00000000]
+
+t_start: 280920
+t_end: 281300
+
+patch.min_size: 50
+patch.dashed_min_h: 1.35
+patch.dashed_max_h: 10.0
+patch.dashed_max_dist: 15.0
+patch.guide_min_h: 0.0
+patch.guide_max_h: 1000.0
+patch.guide_max_dist:  30.0
+patch.solid_max_dist: 15.0
+patch.stop_max_dist:  10.0
+
+need_smooth: 1
+pose_smooth_window: 20
+large_slope_thresold: 2.0
+enable_vis_image: 1
+enable_vis_3d: 1
+
+localization.every_n_frames: 5
+localization.force_last_n_frames: 2
+localization.max_windowsize: 100
+localization.min_keyframe_dist: 1.0
+localization.max_strict_match_dist: 1.0
+localization.solid_sample_interval: 3.0

@@ -23,6 +23,7 @@ find_package(OpenGL REQUIRED)
 find_package(PCL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(Ceres REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}   ${OpenMP_C_FLAGS}")
@@ -43,3 +44,6 @@ file(GLOB_RECURSE SRC_FILE_LIST "roadlib/*.cpp" "gv_tools/*.cpp" "gv_tools/*.cc"
 
 add_executable(demo_mapping demo/demo_mapping.cpp demo/main_phase_mapping.cpp ${SRC_FILE_LIST})
 target_link_libraries(demo_mapping ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${OPENGL_LIBRARIES} glfw)
+
+add_executable(demo_localization demo/demo_localization.cpp demo/main_phase_localization.cpp ${SRC_FILE_LIST})
+target_link_libraries(demo_localization ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${OPENGL_LIBRARIES} ${CERES_LIBRARIES} glfw)

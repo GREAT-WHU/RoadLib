@@ -55,6 +55,7 @@ int visualize_roadmap(const RoadInstancePatchMap& road_map,
 
 					if ((*iter_instance)->merged)
 					{
+#ifdef _WIN32
 						for (int ii = 0; ii < (*iter_instance)->line_points_metric.size(); ii++)
 						{
 							VisualizedInstance vis_instance;
@@ -78,6 +79,7 @@ int visualize_roadmap(const RoadInstancePatchMap& road_map,
 							vis_instance.l = 0.2;
 							vis_instances.push_back(vis_instance);
 						}
+#endif
 					}
 				}
 				else

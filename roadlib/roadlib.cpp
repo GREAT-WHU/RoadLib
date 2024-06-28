@@ -526,6 +526,13 @@ SensorConfig::SensorConfig(string path)
 	this->mapping_line_cluster_max_across_dist2 = (double)fs_config["mapping.line_cluster_max_across_dist2"];
 	this->mapping_line_cluster_max_theta = (double)fs_config["mapping.line_cluster_max_theta"];
 
+	this->localization_every_n_frames = (int)fs_config["localization.every_n_frames"];
+	this->localization_force_last_n_frames = (int)fs_config["localization.force_last_n_frames"];
+	this->localization_max_windowsize = (int)fs_config["localization.max_windowsize"];
+	this->localization_min_keyframe_dist = (int)fs_config["localization.min_keyframe_dist"];
+	this->localization_max_strict_match_dist = (int)fs_config["localization.max_strict_match_dist"];
+	this->localization_solid_sample_interval = (int)fs_config["localization.solid_sample_interval"];
+
 	this->enable_vis_image = (bool)(int)fs_config["enable_vis_image"];
 	this->enable_vis_3d = (bool)(int)fs_config["enable_vis_3d"];
 

@@ -254,7 +254,8 @@ int RoadInstancePatchMap::buildKDTree()
 	return 0;
 }
 
-map<PatchType, vector<pair<int, int>>> RoadInstancePatchMap::mapMatch(RoadInstancePatchFrame& frame, int mode)
+map<PatchType, vector<pair<int, int>>> RoadInstancePatchMap::mapMatch(const SensorConfig &config, 
+	RoadInstancePatchFrame& frame, int mode)
 {
 	bool wide_search = true;
 	double search_radius = wide_search ? 20 : 10;
@@ -268,6 +269,7 @@ map<PatchType, vector<pair<int, int>>> RoadInstancePatchMap::mapMatch(RoadInstan
 			for (int i = 0; i < iter_class->second.size(); i++)
 			{
 				auto& this_patch = iter_class->second[i];
+				if(!this_patch->valid_add_to_map) continue;
 
 				Vector3d mean_metric = frame.t + frame.R * this_patch->mean_metric;
 
@@ -298,7 +300,8 @@ map<PatchType, vector<pair<int, int>>> RoadInstancePatchMap::mapMatch(RoadInstan
 							Vector3d n2 = frame.patches[iter_class->first][i]->mean_metric;
 							double cos_theta = fabs(n1.dot(n2) / (n1.norm() * n2.norm()));
 
-							if ((this->patches[iter_class->first][class_pts_index[iter_class->first][indice2[0]].first]->mean_metric - mean_metric).norm() > 1.0
+							if ((this->patches[iter_class->first][class_pts_index[iter_class->first][indice2[0]].first]->mean_metric - mean_metric).norm() 
+									> config.localization_max_strict_match_dist
 								|| this->patches[iter_class->first][class_pts_index[iter_class->first][indice2[0]].first]->h() < 1.5)
 								continue;
 						}
@@ -312,7 +315,8 @@ map<PatchType, vector<pair<int, int>>> RoadInstancePatchMap::mapMatch(RoadInstan
 	return match_pairs;
 }
 
-vector<pair<int, int>> RoadInstancePatchMap::getLineMatch(RoadInstancePatchFrame& frame, PatchType road_class, int frame_line_count, int map_line_count, int mode)
+vector<pair<int, int>> RoadInstancePatchMap::getLineMatch(const SensorConfig &config, RoadInstancePatchFrame& frame, 
+	PatchType road_class, int frame_line_count, int map_line_count, int mode)
 {
 	auto& this_patch_frame = frame.patches[road_class][frame_line_count];
 	auto& this_patch_map = this->patches[road_class][map_line_count];
@@ -325,7 +329,7 @@ vector<pair<int, int>> RoadInstancePatchMap::getLineMatch(RoadInstancePatchFrame
 		Vector3d w_p = frame.R * this_patch_frame->line_points_metric[i] + frame.t;
 		if (road_class == PatchType::SOLID)
 		{
-			if ((w_p - last_w_p).norm() < 3.0) continue;
+			if ((w_p - last_w_p).norm() < config.localization_solid_sample_interval) continue;
 		}
 		map<double, int> dist;
 		for (int j = 0; j < this_patch_map->line_points_metric.size(); j++)
@@ -360,7 +364,7 @@ vector<pair<int, int>> RoadInstancePatchMap::getLineMatch(RoadInstancePatchFrame
 		double Dvljxvli = pow((a * a + b * b + c * c), 0.5);
 		double Dvlj = pow(Dxlj * Dxlj + Dylj * Dylj + Dzlj * Dzlj, 0.5);
 		double ddd = Dvljxvli / Dvlj;
-		if (mode > 0 && ddd > 1.0) continue;
+		if (mode > 0 && ddd > config.localization_max_strict_match_dist) continue;
 		match_pairs.push_back(make_pair(i, match_id));
 	}
 
@@ -1108,57 +1112,60 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 	}
 	patches = patches_new;
 
-
-
-	//** Refreshing linked frames
-	// This is used for geo-registering.
-	for (auto iter_class = patches.begin(); iter_class != patches.end(); iter_class++)
+	if (mode == 0)
 	{
-		for (int i = 0; i < iter_class->second.size(); i++)
+		//** Refreshing linked frames
+		// This is used for geo-registering.
+		for (auto iter_class = patches.begin(); iter_class != patches.end(); iter_class++)
 		{
-			auto& patch = iter_class->second[i];
-
-			if (patch->frozen) continue;
-
-			if (iter_class->first == PatchType::DASHED || iter_class->first == PatchType::GUIDE)
+			for (int i = 0; i < iter_class->second.size(); i++)
 			{
-				patch->linked_frames.clear();
-				patch->linked_frames.resize(1);
-				for (auto iter_pose = queued_poses.lower_bound(queued_poses.rbegin()->first - 200); iter_pose != queued_poses.end(); iter_pose++)
+				auto& patch = iter_class->second[i];
+
+				if (patch->frozen) continue;
+
+				if (iter_class->first == PatchType::DASHED || iter_class->first == PatchType::GUIDE)
 				{
-					Eigen::Vector3d tvf = iter_pose->second.first.transpose() *
-						(patch->mean_metric - iter_pose->second.second);
-					if (tvf.x() < 10 && tvf.x() > -10 && tvf.y() > 2 && tvf.y() < 20) // in the region
-					{
-						patch->linked_frames[0].push_back(iter_pose->first);
-					}
-				}
-			}
-			else
-			{
-				patch->linked_frames.clear();
-				for (int jjj = 0; jjj < patch->line_points_metric.size(); jjj++)
-				{
-					patch->linked_frames.push_back(vector<long long>());
+					patch->linked_frames.clear();
+					patch->linked_frames.resize(1);
 					for (auto iter_pose = queued_poses.lower_bound(queued_poses.rbegin()->first - 200); iter_pose != queued_poses.end(); iter_pose++)
 					{
 						Eigen::Vector3d tvf = iter_pose->second.first.transpose() *
-							(patch->line_points_metric[jjj] - iter_pose->second.second);
+							(patch->mean_metric - iter_pose->second.second);
 						if (tvf.x() < 10 && tvf.x() > -10 && tvf.y() > 2 && tvf.y() < 20) // in the region
 						{
-							patch->linked_frames[jjj].push_back(iter_pose->first);
+							patch->linked_frames[0].push_back(iter_pose->first);
 						}
 					}
 				}
+				else
+				{
+					std::cerr<<1<<std::endl;
+					patch->linked_frames.clear();
+					std::cerr<<2<<std::endl;
+					for (int jjj = 0; jjj < patch->line_points_metric.size(); jjj++)
+					{
+						std::cerr<<3<<" "<<jjj<<std::endl;
+						patch->linked_frames.push_back(vector<long long>());
+						for (auto iter_pose = queued_poses.lower_bound(queued_poses.rbegin()->first - 200); iter_pose != queued_poses.end(); iter_pose++)
+						{
+							std::cerr<<"!"<<std::endl;
+							Eigen::Vector3d tvf = iter_pose->second.first.transpose() *
+								(patch->line_points_metric[jjj] - iter_pose->second.second);
+							if (tvf.x() < 10 && tvf.x() > -10 && tvf.y() > 2 && tvf.y() < 20) // in the region
+							{
+								patch->linked_frames[jjj].push_back(iter_pose->first);
+							}
+						}
+					}
 
+				}
 			}
 		}
-	}
 
-	// Attention!!!
-	// We simply freeze old lines to avoid troublesome cases.
-	// This could be optimized.
-	if (mode == 0)
+		// Attention!!!
+		// We simply freeze old lines to avoid troublesome cases.
+		// This could be optimized.
 		for (auto iter_class = patches.begin(); iter_class != patches.end(); iter_class++)
 		{
 			for (int i = 0; i < iter_class->second.size(); i++)
@@ -1173,5 +1180,6 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 						patch->frozen = true;
 			}
 		}
+	}
 	return 0;
 }
