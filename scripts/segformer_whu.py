@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/models/segformer_mit-b0.py',
-    '../_base_/datasets/whu.py',
+    '../_base_/datasets/cityscapes.py',
     '../_base_/default_runtime.py', '../_base_/schedules/schedule_160k.py'
 ]
 load_from = "work_dirs/segformer_apollo/iter_48000.pth"
