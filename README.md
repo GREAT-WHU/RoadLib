@@ -46,6 +46,7 @@ make -j8
 
 * This project has been tested on **Windows 10** and **Ubuntu 20.04 (WSL2)**. If you have any trouble building the project, please raise an issue.
 
+* For ceres version < 2.1.0, you might need to replace the "ceres::Manifold" in the code to "ceres::LocalParameterization" manually.
 
 ## Inference model (road marking segmentation)
 
