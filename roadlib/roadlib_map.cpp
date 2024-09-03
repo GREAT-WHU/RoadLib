@@ -1140,16 +1140,12 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 				}
 				else
 				{
-					std::cerr<<1<<std::endl;
 					patch->linked_frames.clear();
-					std::cerr<<2<<std::endl;
 					for (int jjj = 0; jjj < patch->line_points_metric.size(); jjj++)
 					{
-						std::cerr<<3<<" "<<jjj<<std::endl;
 						patch->linked_frames.push_back(vector<long long>());
 						for (auto iter_pose = queued_poses.lower_bound(queued_poses.rbegin()->first - 200); iter_pose != queued_poses.end(); iter_pose++)
 						{
-							std::cerr<<"!"<<std::endl;
 							Eigen::Vector3d tvf = iter_pose->second.first.transpose() *
 								(patch->line_points_metric[jjj] - iter_pose->second.second);
 							if (tvf.x() < 10 && tvf.x() > -10 && tvf.y() > 2 && tvf.y() < 20) // in the region
