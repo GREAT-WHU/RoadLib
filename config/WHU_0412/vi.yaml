@@ -48,7 +48,7 @@ enable_vis_3d: 1
 
 # For mapping phase.
 mapping.step: 10                              # Perform patch merging every x steps.
-mapping.patch_freeze_distance: 10.0           # Turn the patches into inactive status after passing by.
+mapping.patch_freeze_distance: 3.0           # Turn the patches into inactive status after passing by.
 mapping.line_freeze_distance: 10.0              
 mapping.line_freeze_max_length: 50.0            
 mapping.line_cluster_max_dist: 1.0            # Thresholds for line marking clustering.
