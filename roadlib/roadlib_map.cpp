@@ -649,7 +649,7 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 					queue<int> new_intersection_instance; new_intersection_instance.push(0);
 					vector<int> same_cluster_flag; // for bi-directional mathching
 
-					if (iter_class->second[i]->frozen)
+					if (iter_class->second[i]->frozen || iter_class->second[i]->merged)
 					{
 						intersection_flag[0] = 1;
 					}
@@ -732,7 +732,8 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 					}
 					continue;
 				}
-				if (mode == 0 && cluster_index[i].size() == 1 && iter_class->second[cluster_index[i][0]]->frozen == false)
+				if (mode == 0 && cluster_index[i].size() == 1 && iter_class->second[cluster_index[i][0]]->frozen == false 
+					&& iter_class->second[cluster_index[i][0]]->merged == false)
 					continue;
 
 
