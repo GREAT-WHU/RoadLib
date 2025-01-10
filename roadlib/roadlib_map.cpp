@@ -948,7 +948,7 @@ int RoadInstancePatchMap::mergePatches(const SensorConfig& config, const int mod
 				patch_new.b_unc_dist[2] = uncs_new(2);
 				patch_new.b_unc_dist[3] = uncs_new(3);
 				patch_new.merged = true;
-				patch_new.frozen = true;
+				// patch_new.frozen = true;
 
 
 				patches_new[iter_class->first].push_back(make_shared<RoadInstancePatch>(patch_new));
