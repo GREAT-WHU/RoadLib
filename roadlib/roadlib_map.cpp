@@ -377,6 +377,7 @@ int RoadInstancePatchMap::unfreeze()
 		for (int i = 0; i < iter_class->second.size(); i++)
 		{
 			iter_class->second[i]->frozen = false;
+			iter_class->second[i]->merged = false;
 		}
 	return 0;
 }
