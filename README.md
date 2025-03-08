@@ -35,6 +35,11 @@ I have made practical modifications to the original version and hope this can se
 
 * The project depends on OpenCV, PCL, GLFW3 and Ceres (for localization). Install these libraries first.
 
+```Bash
+# Just for example. Feel free to install the libraries in your way.
+sudo apt-get install libopencv-dev libpcl-dev libglfw3-dev libceres-dev
+```
+
 * Use the following commands to compile the project.
 
 ```Bash
