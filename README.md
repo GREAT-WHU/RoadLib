@@ -38,6 +38,8 @@ I have made practical modifications to the original version and hope this can se
 * Use the following commands to compile the project.
 
 ```Bash
+git clone https://github.com/GREAT-WHU/RoadLib.git
+cd RoadLib
 mkdir build
 cd build
 cmake ..
