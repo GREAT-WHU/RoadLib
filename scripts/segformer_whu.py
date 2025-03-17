@@ -3,7 +3,6 @@ _base_ = [
     '../_base_/datasets/cityscapes.py',
     '../_base_/default_runtime.py', '../_base_/schedules/schedule_160k.py'
 ]
-load_from = "work_dirs/segformer_apollo/iter_48000.pth"
 crop_size = (512, 1024)
 data_preprocessor = dict(size=crop_size)
 checkpoint = 'https://download.openmmlab.com/mmsegmentation/v0.5/pretrain/segformer/mit_b2_20220624-66e8bf70.pth'  # noqa
