@@ -69,7 +69,7 @@ for details of the inference.
 
 Notice that this is just a toy model due to the limited training set. You may train your own road marking segmentation model to fit your applications.
 
-(If you need more information about the training process and the used dataset, please me yuxuanzhou@whu.edu.cn.)
+(If you need more information about the training process and the used dataset, please e-mail me yuxuanzhou@whu.edu.cn.)
 
 ## Run the example
 
